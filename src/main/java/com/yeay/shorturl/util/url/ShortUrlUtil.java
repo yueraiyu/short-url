@@ -30,8 +30,6 @@ public class ShortUrlUtil {
     /** 获取 < 61 的有效数位运算*/
     private static final String VALID_INDEX_OPERATION = "0000003D";
 
-    /** server name */
-    private static final String SERVER_NAME = "http://localhost:8090/";
     /**
      * 压缩url
      * @param url
@@ -48,13 +46,6 @@ public class ShortUrlUtil {
 
         // step3: 将 md5Sections 转换为对应的短连接码
         return convertSections(md5Sections);
-    }
-
-    public static String getShortUrl(String shortKey){
-        if (StringUtils.isEmpty(shortKey))
-            return null;
-
-        return SERVER_NAME + shortKey;
     }
 
     private static String convertSections(String[] md5Sections) {

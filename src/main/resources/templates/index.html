@@ -33,6 +33,18 @@
                         <div class="layui-input-block">
                             <textarea class="layui-textarea" id="url-add" name="url" v-model="url" placeholder="please insert url..."></textarea>
                         </div>
+                        <div class="layui-input-block">
+                            <div class="define-div">
+                                <p>
+                                    自定义网址：<span th:text="${serverName}"></span>&nbsp;
+                                    <i class="define-i">
+                                        <input type="text" id="shortKey-add" name="shortKey" v-model="shortKey" placeholder="please insert short key...">
+                                    </i>
+                                    字母、数字、下划线
+                                </p>
+                            </div>
+
+                        </div>
                     </div>
                     <div class="layui-form-item right">
                         <div class="layui-input-block">

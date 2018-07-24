@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +29,14 @@ public class ShortUrlController {
     private static final Logger logger = LoggerFactory.getLogger(ShortUrlController.class);
 
     @Autowired
+    private Environment env;
+
+    @Autowired
     private ShortUrlRepository shortUrlRepository;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index(HttpServletResponse response) {
+    public String index(HttpServletResponse response, Model model) {
+        model.addAttribute("serverName", env.getProperty("app.server.serverName"));
         return "/index";
     }
 
@@ -54,13 +59,14 @@ public class ShortUrlController {
             baseResponseVo.setMsg("url is empty!");
             return baseResponseVo;
         }
+        String serverName = env.getProperty("app.server.serverName");
         String hashKey = DigestUtil.getSha1Str(url);
 
         ShortUrl existUrl = shortUrlRepository.findByHashKey(hashKey);
         if (existUrl != null){
             baseResponseVo.setCode(200);
             baseResponseVo.setMsg("success");
-            baseResponseVo.setData(ShortUrlUtil.getShortUrl(existUrl.getShortKey()));
+            baseResponseVo.setData(serverName + existUrl.getUrl());
 
             return baseResponseVo;
         }
@@ -76,7 +82,7 @@ public class ShortUrlController {
 
         baseResponseVo.setCode(200);
         baseResponseVo.setMsg("success");
-        baseResponseVo.setData(ShortUrlUtil.getShortUrl(shortUrl.getShortKey()));
+        baseResponseVo.setData(serverName + shortUrl.getShortKey());
 
         return baseResponseVo;
     }

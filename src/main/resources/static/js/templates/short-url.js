@@ -1,7 +1,8 @@
 new Vue({
     el: '#url-add-form',
     data: {
-        url: ""
+        url: "",
+        shortKey: ""
     },
     methods: {
         validate: function () {
@@ -40,6 +41,7 @@ new Vue({
         },
         resetData: function () {
             this.url = "";
+            this.shortKey = "";
         }
     }
 });
