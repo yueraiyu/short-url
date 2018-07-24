@@ -22,18 +22,22 @@ new Vue({
             var vm = this;
             axios.post(save_URL, vm.$data)
                 .then(function (res) {
-                    var shortUrl = res.data.data;
-                    layer.open({
-                        title: '短码链接'
-                        ,btn: ['test']
-                        ,content: shortUrl
-                        ,yes: function(index, layero){
-                            window.open(shortUrl);
-                        }
-                        ,cancel: function(){
+                    if(res.data.code != 400){
+                        var shortUrl = res.data.data;
+                        layer.open({
+                            title: '短码链接'
+                            ,btn: ['test']
+                            ,content: shortUrl
+                            ,yes: function(index, layero){
+                                window.open(shortUrl);
+                            }
+                            ,cancel: function(){
 
-                        }
-                    });
+                            }
+                        });
+                    }else{
+                        layer.msg(res.data.msg);
+                    }
                 })
                 .catch(function (err) {
                     serverError(err);

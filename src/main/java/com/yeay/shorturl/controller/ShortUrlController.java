@@ -1,20 +1,24 @@
 package com.yeay.shorturl.controller;
 
 import com.yeay.shorturl.dao.ShortUrlRepository;
+import com.yeay.shorturl.dao.ShortUrlVisitRecordRepository;
 import com.yeay.shorturl.entity.ShortUrl;
+import com.yeay.shorturl.entity.ShortUrlVisitRecord;
 import com.yeay.shorturl.request.ShortUrlRequest;
 import com.yeay.shorturl.util.url.DigestUtil;
+import com.yeay.shorturl.util.url.RandomUtil;
+import com.yeay.shorturl.util.url.RequestUtil;
 import com.yeay.shorturl.util.url.ShortUrlUtil;
-import com.yeay.shorturl.vo.BaseResponse;
 import com.yeay.shorturl.vo.BaseListResponseVo;
 import com.yeay.shorturl.vo.BaseResponseVo;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +38,9 @@ public class ShortUrlController {
     @Autowired
     private ShortUrlRepository shortUrlRepository;
 
+    @Autowired
+    private ShortUrlVisitRecordRepository shortUrlVisitRecordRepository;
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(HttpServletResponse response, Model model) {
         model.addAttribute("serverName", env.getProperty("app.server.serverName"));
@@ -41,7 +48,15 @@ public class ShortUrlController {
     }
 
     @RequestMapping(value = "/{shortKey}", method = RequestMethod.GET)
-    public void redirect(@PathVariable(name = "shortKey") String shortKey, HttpServletResponse response) {
+    public void redirect(@PathVariable(name = "shortKey") String shortKey, HttpServletRequest request, HttpServletResponse response) {
+        String ip = RequestUtil.getIpAddress(request);
+        List<ShortUrlVisitRecord> shortUrlVisitRecords = shortUrlVisitRecordRepository.findByIp(ip);
+        Boolean firstVisitFlag = CollectionUtils.isEmpty(shortUrlVisitRecords) ? true : false;
+        String os = RequestUtil.getOsInfo(request);
+        String browser = RequestUtil.getBrowserInfo(request);
+        ShortUrlVisitRecord shortUrlVisitRecord = new ShortUrlVisitRecord(ip, shortKey, new Date(), browser, os, firstVisitFlag);
+        shortUrlVisitRecordRepository.save(shortUrlVisitRecord);
+
         ShortUrl shortUrl = shortUrlRepository.findByShortKey(shortKey);
         response.setStatus(302);
         response.setHeader("Location", shortUrl.getUrl());
@@ -50,39 +65,19 @@ public class ShortUrlController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public @ResponseBody
     BaseResponseVo<String> save(@RequestBody ShortUrlRequest shortUrlRequest, HttpServletResponse response){
-        logger.info("save url , url :{}", shortUrlRequest.getUrl());
         String url = shortUrlRequest != null ? shortUrlRequest.getUrl() : null;
+        String shortKey = shortUrlRequest != null ? shortUrlRequest.getShortKey() : null;
+        logger.info("save url , url : {}, short key : {}", url, shortKey);
 
+        //校验 url 是否有值, 否则返回错误信息
         BaseResponseVo<String> baseResponseVo = new BaseResponseVo<>();
         if (StringUtils.isEmpty(url)){
             baseResponseVo.setCode(400);
             baseResponseVo.setMsg("url is empty!");
             return baseResponseVo;
         }
-        String serverName = env.getProperty("app.server.serverName");
-        String hashKey = DigestUtil.getSha1Str(url);
 
-        ShortUrl existUrl = shortUrlRepository.findByHashKey(hashKey);
-        if (existUrl != null){
-            baseResponseVo.setCode(200);
-            baseResponseVo.setMsg("success");
-            baseResponseVo.setData(serverName + existUrl.getUrl());
-
-            return baseResponseVo;
-        }
-
-        ShortUrl shortUrl = new ShortUrl();
-        shortUrl.setHashKey(hashKey);
-        shortUrl.setShortKey(ShortUrlUtil.compression(url));
-        shortUrl.setUrl(url);
-        shortUrl.setModifyDate(new Date());
-        shortUrl.setCreateDate(new Date());
-        shortUrl.setClickNum(0L);
-        shortUrlRepository.save(shortUrl);
-
-        baseResponseVo.setCode(200);
-        baseResponseVo.setMsg("success");
-        baseResponseVo.setData(serverName + shortUrl.getShortKey());
+        baseResponseVo = saveShortUrl(new ShortUrl(url), shortKey);
 
         return baseResponseVo;
     }
@@ -97,5 +92,55 @@ public class ShortUrlController {
         responseVo.setCount(1000L);
         responseVo.setData(shortUrls);
         return responseVo;
+    }
+
+    private BaseResponseVo<String> saveShortUrl(ShortUrl shortUrl, String shortKey) {
+        BaseResponseVo<String> baseResponseVo = new BaseResponseVo<>();
+        String serverName = env.getProperty("app.server.serverName");
+        String hashKey = DigestUtil.getSha1Str(shortUrl.getUrl());
+
+        ShortUrl findByHashKey = shortUrlRepository.findByHashKey(hashKey);
+
+        // hashKey已存在
+        if (findByHashKey != null){
+            // 同一url
+            if(shortUrl.getUrl().equals(findByHashKey.getUrl())){
+                baseResponseVo.setCode(201);
+                baseResponseVo.setMsg("url has exist!");
+                baseResponseVo.setData(serverName + findByHashKey.getShortKey());
+
+                return baseResponseVo;
+            }
+            // 非同一url 二次hash
+            else{
+                shortUrl.setHashKey(DigestUtil.getSha1Str(hashKey));
+            }
+        }else {
+            shortUrl.setHashKey(DigestUtil.getSha1Str(shortUrl.getUrl()));
+        }
+
+        if (!StringUtils.isEmpty(shortKey)){
+            ShortUrl findByShortKey = shortUrlRepository.findByShortKey(shortKey);
+
+            // shortKey已存在
+            if (findByShortKey != null){
+                baseResponseVo.setCode(400);
+                baseResponseVo.setMsg("duplicate short key!");
+
+                return baseResponseVo;
+            }
+
+            shortUrl.setShortKey(shortKey);
+        }else {
+            shortUrl.setShortKey(ShortUrlUtil.compression(shortUrl.getUrl()));
+        }
+
+        shortUrlRepository.save(shortUrl);
+
+        baseResponseVo.setCode(200);
+        baseResponseVo.setMsg("success");
+        baseResponseVo.setData(serverName + shortUrl.getShortKey());
+
+        return baseResponseVo;
     }
 }

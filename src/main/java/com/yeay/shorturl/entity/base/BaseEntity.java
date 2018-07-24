@@ -25,6 +25,14 @@ public class BaseEntity implements Serializable {
     @Column(nullable = false, name = "modify_date")
     private Date modifyDate;
 
+    public BaseEntity() {
+    }
+
+    public BaseEntity(Date createDate, Date modifyDate) {
+        this.createDate = createDate;
+        this.modifyDate = modifyDate;
+    }
+
     public Long getId() {
         return id;
     }

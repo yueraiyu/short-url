@@ -1,11 +1,5 @@
 package com.yeay.shorturl.util.url;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
 import java.util.Random;
@@ -46,6 +40,12 @@ public class ShortUrlUtil {
 
         // step3: 将 md5Sections 转换为对应的短连接码
         return convertSections(md5Sections);
+    }
+
+    public static String appendRandomCharUrl(String url){
+        if (StringUtils.isEmpty(url))
+            return null;
+        return getAppendWithRandomCharUrl(url);
     }
 
     private static String convertSections(String[] md5Sections) {
@@ -92,9 +92,14 @@ public class ShortUrlUtil {
     }
 
     private static String getMD5Str(String url) {
-        String randomKey = RandomUtil.randomString(RANDOM_KEY_LENGTH);
-        String appendUrl = url + randomKey;
+        String appendUrl = getAppendWithRandomCharUrl(url);
         String md5Str = DigestUtil.getMD5Str(appendUrl);
         return md5Str;
+    }
+
+    private static String getAppendWithRandomCharUrl(String url) {
+        String randomKey = RandomUtil.randomString(RANDOM_KEY_LENGTH);
+        String appendUrl = url + randomKey;
+        return appendUrl;
     }
 }
