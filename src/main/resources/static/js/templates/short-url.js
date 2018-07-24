@@ -27,22 +27,12 @@ new Vue({
                         ,btn: ['test']
                         ,content: shortUrl
                         ,yes: function(index, layero){
-                            axios.get(shortUrl)
-                                .then(function (resp) {
-                                   debugger;
-                                })
-                                .catch(function (err) {
-                                    serverError(err);
-                                })
+                            window.open(shortUrl);
                         }
                         ,cancel: function(){
 
                         }
                     });
-                    // if(res.data.code === 200){
-                    //     vm.resetData();
-                    //     callback();
-                    // }
                 })
                 .catch(function (err) {
                     serverError(err);

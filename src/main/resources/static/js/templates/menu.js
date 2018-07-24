@@ -9,13 +9,13 @@ var mainSidebar = new Vue({
     },
     methods: {
         menu: function (name) {
-            if ('create' === name) {
+            if ('WRAP' === name) {
                 this.action = 'index';
                 $("#create").show();
                 $("#list").hide();
 
                 window.location = web_service_URL + this.action;
-            } else if ('list' === name) {
+            } else if ('COUNT' === name) {
                 this.action = 'list';
                 $("#list").show();
                 $("#create").hide();

@@ -54,15 +54,24 @@ public class ShortUrlController {
             baseResponseVo.setMsg("url is empty!");
             return baseResponseVo;
         }
+        String hashKey = DigestUtil.getSha1Str(url);
+
+        ShortUrl existUrl = shortUrlRepository.findByHashKey(hashKey);
+        if (existUrl != null){
+            baseResponseVo.setCode(200);
+            baseResponseVo.setMsg("success");
+            baseResponseVo.setData(ShortUrlUtil.getShortUrl(existUrl.getShortKey()));
+
+            return baseResponseVo;
+        }
 
         ShortUrl shortUrl = new ShortUrl();
-        shortUrl.setHashKey(DigestUtil.getSha1Str(url));
+        shortUrl.setHashKey(hashKey);
         shortUrl.setShortKey(ShortUrlUtil.compression(url));
         shortUrl.setUrl(url);
         shortUrl.setModifyDate(new Date());
         shortUrl.setCreateDate(new Date());
         shortUrl.setClickNum(0L);
-
         shortUrlRepository.save(shortUrl);
 
         baseResponseVo.setCode(200);
