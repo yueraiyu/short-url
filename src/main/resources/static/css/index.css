@@ -1,0 +1,15 @@
+.right {
+    float: right
+}
+
+.margin{
+    margin: 30px 50px;
+}
+
+.show{
+    display: block;
+}
+
+.hidden{
+    display: none;
+}

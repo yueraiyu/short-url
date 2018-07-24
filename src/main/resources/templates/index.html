@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>SHORT URL</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <!-- 引入首页样式-->
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <!-- 引入layui 样式 -->
+    <link rel="stylesheet" th:href="@{/js/layui/css/layui.css}">
+    <!-- layer 样式 -->
+    <link rel="stylesheet" th:href="@{/js/layui/css/modules/layer/default/layer.css}">
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" id="content-wrapper">
+        <div id="main-sidebar">
+            <ul class="layui-nav" lay-filter="">
+                <li class="layui-nav-item"><a href="#" @click="menu('create')">Create</a></li>
+                <li class="layui-nav-item"><a href="#" @click="menu('list')">List</a></li>
+            </ul>
+        </div>
+        <div id="content" class="margin">
+            <div id="create" class="show">
+                <div class="form-horizontal" id="url-add-form">
+                    <div class="layui-form-item layui-form-text">
+                        <div class="layui-input-block">
+                            <textarea class="layui-textarea" id="url-add" name="url" v-model="url" placeholder="please insert url..."></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item right">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" v-on:click="save">Submit</button>
+                            <button class="layui-btn" v-on:click="resetData">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="list" class="hidden">
+                <table id="url-list"></table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- ./wrapper -->
+<!-- jQuery 3 -->
+<script th:src="@{/js/jquery/dist/jquery.min.js}"></script>
+<!--jquery validation-->
+<script th:src="@{/js/jquery-validation/dist/jquery.validate.min.js}"></script>
+<!-- vue -->
+<script th:src="@{/js/vue/vue2.5.16.min.js}"></script>
+<!-- axios -->
+<script th:src="@{/js/axios/axios.min.js}"></script>
+<!-- layui -->
+<script th:src="@{/js/layui/layui.js}"></script>
+<!-- layer -->
+<script th:src="@{/js/layui/lay/modules/layer.js}"></script>
+<!-- index -->
+<script th:src="@{/js/templates/index.js}"></script>
+<!-- common -->
+<script th:src="@{/js/templates/common.js}"></script>
+<!-- menu -->
+<script th:src="@{/js/templates/menu.js}"></script>
+<!-- short url -->
+<script th:src="@{/js/templates/short-url.js}"></script>
+<!-- REQUIRED JS SCRIPTS -->
+</body>
+</html>
