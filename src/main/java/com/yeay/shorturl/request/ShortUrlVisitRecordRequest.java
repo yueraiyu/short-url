@@ -8,7 +8,7 @@ public class ShortUrlVisitRecordRequest {
 
     private Date endTime;
 
-    private String shortKey;
+    private String searchKey;
 
     public Date getStartTime() {
         return startTime;
@@ -26,11 +26,11 @@ public class ShortUrlVisitRecordRequest {
         this.endTime = endTime;
     }
 
-    public String getShortKey() {
-        return shortKey;
+    public String getSearchKey() {
+        return searchKey;
     }
 
-    public void setShortKey(String shortKey) {
-        this.shortKey = shortKey;
+    public void setSearchKey(String searchKey) {
+        this.searchKey = searchKey;
     }
 }

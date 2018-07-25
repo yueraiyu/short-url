@@ -21,13 +21,9 @@ public class ShortUrlVisitRecord extends BaseEntity{
     @Column(name = "short_key", nullable = false, updatable = false)
     private String shortKey;
 
-    /** 访问日期 */
-    @Column(name = "visit_date", nullable = false, updatable = false)
-    private String visitDate;
-
     /** 访问时间 */
     @Column(name = "visit_time", nullable = false, updatable = false)
-    private String visitTime;
+    private Date visitTime;
 
     /** 访问浏览器 */
     @Column(name = "browser", nullable = false, updatable = false)
@@ -44,11 +40,10 @@ public class ShortUrlVisitRecord extends BaseEntity{
     public ShortUrlVisitRecord() {
     }
 
-    public ShortUrlVisitRecord(String ip, String shortKey, String visitDate, String visitTime, String browser, String device, Boolean firstVisitFlag) {
+    public ShortUrlVisitRecord(String ip, String shortKey, Date visitTime, String browser, String device, Boolean firstVisitFlag) {
         super(new Date(), new Date());
         this.ip = ip;
         this.shortKey = shortKey;
-        this.visitDate = visitDate;
         this.visitTime = visitTime;
         this.browser = browser;
         this.device = device;
@@ -71,19 +66,11 @@ public class ShortUrlVisitRecord extends BaseEntity{
         this.shortKey = shortKey;
     }
 
-    public String getVisitDate() {
-        return visitDate;
-    }
-
-    public void setVisitDate(String visitDate) {
-        this.visitDate = visitDate;
-    }
-
-    public String getVisitTime() {
+    public Date getVisitTime() {
         return visitTime;
     }
 
-    public void setVisitTime(String visitTime) {
+    public void setVisitTime(Date visitTime) {
         this.visitTime = visitTime;
     }
 
@@ -109,5 +96,28 @@ public class ShortUrlVisitRecord extends BaseEntity{
 
     public void setFirstVisitFlag(Boolean firstVisitFlag) {
         this.firstVisitFlag = firstVisitFlag;
+    }
+
+    public String getBrowserType(){
+        String currentBrowser = getBrowser();
+
+        if (currentBrowser.contains("Edge")) {
+            return "Edge";
+        } else if (currentBrowser.contains("IE")) {
+            return "IE";
+        } else if (currentBrowser.contains("Safari")) {
+            return "Safari";
+        } else if ( currentBrowser.contains("Opera")) {
+                return "Opera";
+        } else if (currentBrowser.contains("Chrome")) {
+            return "Chrome";
+        } else if (currentBrowser.contains("Netscape")) {
+            return "Netscape";
+        } else if (currentBrowser.contains("Firefox")) {
+            return "Firefox";
+        } else if(currentBrowser.contains("UnKnown")) {
+            return "UnKnown";
+        }
+        return "UnKnown";
     }
 }

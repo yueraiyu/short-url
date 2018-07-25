@@ -1,11 +1,17 @@
 package com.yeay.shorturl.util.datetime;
 
+import org.apache.commons.lang.time.DateUtils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Yeager
@@ -13,7 +19,7 @@ import java.util.Date;
  * 日期工具类
  * java8 java.time包实现
  */
-public class DateTimeUtil {
+public class DateTimeUtil extends DateUtils{
 
 	public static final String DEFAULT_DATE_TIME_FORMATTER = "yyyy-MM-dd HH:mm:ss";
 
@@ -49,6 +55,26 @@ public class DateTimeUtil {
 		int second=ca.get(Calendar.SECOND);//秒
 
 		return hour + TIME_SPLIT + minute + TIME_SPLIT + second;
+	}
+
+	/**
+	 * 获取日期
+	 * @param formatter 格式化
+	 * @return String
+	 */
+	public static Date getDateFormString(String dateStr, SimpleDateFormat formatter) {
+		if (null == formatter) {
+			formatter = new SimpleDateFormat(DATE_FORMATTER);
+		}
+
+		Date date = null;
+		try {
+			date = formatter.parse(dateStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return date;
 	}
 
 	/**
@@ -155,4 +181,27 @@ public class DateTimeUtil {
         return convertLocalDateTimeToDate(threeOclockAMOfTheNextDay);
     }
 
+	/**
+	 * 获取两日期之间所有日期，返回数组
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+    public static List<String> getDateStringBetween(Date startDate, Date endDate) {
+		Calendar start = Calendar.getInstance();
+		start.setTime(startDate != null ? startDate : new Date());
+
+		Calendar end = Calendar.getInstance();
+		start.setTime(endDate != null ? endDate : new Date());
+
+		List<String> dates = new ArrayList<String>();
+ 		while(!isSameDay(start, end)){
+			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMATTER);
+			String str = sdf.format(start.getTime());
+			dates.add(str);
+			start.add(Calendar.DAY_OF_MONTH, 1);
+		}
+
+		return dates;
+	}
 }

@@ -11,35 +11,26 @@ var mainSidebar = new Vue({
         menu: function (name) {
             if ('WRAP' === name) {
                 this.action = 'index';
-                $("#create").show();
+                $("#wrap").show();
                 $("#charts").hide();
 
                 axios.get(web_service_URL + this.action);
-                // window.location = web_service_URL + this.action;
             } else if ('CHARTS' === name) {
-                this.action = 'list';
+                this.action = 'charts';
                 $("#charts").show();
-                $("#create").hide();
+                $("#wrap").hide();
 
-                // layui.use('table', function(){
-                //     this.table = layui.table;
-                //
-                //     //第一个实例
-                //     this.table.render({
-                //         elem: '#url-list'
-                //         ,height: 315
-                //         ,url: 'list' //数据接口
-                //         ,page: true //开启分页
-                //         ,cols: [[ //表头
-                //             {field: 'id', title: 'ID', fixed: 'left'}
-                //             ,{field: 'hashKey', title: '哈希码'}
-                //             ,{field: 'shortKey', title: '短码'}
-                //             ,{field: 'url', title: '链接'}
-                //             ,{field: 'clickNum', title: '点击数'}
-                //         ]]
-                //     });
-                //
-                // });
+                var req_data= {
+                    startTime: "",
+                    endTime: "",
+                    searchKey: ""};
+                axios.post(charts_URL, req_data)
+                    .then(function (res) {
+                        initCharts(res);
+                    })
+                    .catch(function (err) {
+                        serverError(err);
+                    });
             }
         }
     }

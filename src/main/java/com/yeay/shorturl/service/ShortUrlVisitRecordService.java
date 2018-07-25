@@ -2,6 +2,7 @@ package com.yeay.shorturl.service;
 
 import com.yeay.shorturl.entity.ShortUrlVisitRecord;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ShortUrlVisitRecordService {
@@ -13,5 +14,5 @@ public interface ShortUrlVisitRecordService {
 
     List<ShortUrlVisitRecord> findByIpAndAndShortKey(String ip, String shortKey);
 
-    List<String> groupVisitTime(String shortKey);
+    List<ShortUrlVisitRecord> findByShortKeyAndAndVisitTimeBetween(String shortKey, Date startTime, Date endTime);
 }

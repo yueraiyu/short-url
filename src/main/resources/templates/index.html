@@ -27,18 +27,18 @@
             </ul>
         </div>
         <div id="content" class="margin">
-            <div id="create" class="show">
+            <div id="wrap" class="show">
                 <div class="form-horizontal" id="url-add-form">
                     <div class="layui-form-item layui-form-text">
                         <div class="layui-input-block">
-                            <textarea class="layui-textarea" id="url-add" name="url" v-model="url" placeholder="请输入请求地址..."></textarea>
+                            <textarea class="layui-textarea" id="url-add" name="url" v-model="wrap.url" placeholder="请输入请求地址..."></textarea>
                         </div>
                         <div class="layui-input-block">
                             <div class="layui-form-mid layui-word-aux">
                                 <p>自定义网址:<span th:text="${serverName}"></span>&nbsp;</p>
                             </div>
                             <div class="layui-input-inline">
-                                <input type="text" id="shortKey-add" name="shortKey" v-model="shortKey" placeholder="请输入自定义键值..." class="short-key-input">
+                                <input type="text" id="shortKey-add" name="shortKey" v-model="wrap.shortKey" placeholder="请输入自定义键值..." class="short-key-input">
                                 <hr class="layui-bg-blue">
                             </div>
                             <div class="layui-form-mid layui-word-aux">字母、数字、下划线(不能以下划线开头和结尾)</div>
@@ -53,27 +53,27 @@
                 </div>
             </div>
             <div id="charts" class="hidden">
-                <div class="layui-form-item">
+                <div class="layui-form-item" id="charts-search">
                     <div class="layui-inline">
                         <label class="layui-form-label">时间范围</label>
                         <div class="layui-input-inline" style="width: 100px;">
-                            <input type="text" id="start_time" name="start_time" placeholder="开始时间" autocomplete="off" class="layui-input">
+                            <input type="text" id="start_time" name="startTime" v-model="charts.startTime" placeholder="开始时间" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-form-mid">-</div>
                         <div class="layui-input-inline" style="width: 100px;">
-                            <input type="text" id="end_time" name="end_time" placeholder="结束时间" autocomplete="off" class="layui-input">
+                            <input type="text" id="end_time" name="endTime" v-model="charts.endTime" placeholder="结束时间" autocomplete="off" class="layui-input">
                         </div>
                     </div>
 
                     <div class="layui-inline">
                         <label class="layui-form-label">短码</label>
                         <div class="layui-input-inline" style="width: 100px;">
-                            <input type="text" id="search_key" name="search_key" placeholder="短码" autocomplete="off" class="layui-input">
+                            <input type="text" id="search_key" name="searchKey" v-model="charts.searchKey" placeholder="短码" autocomplete="off" class="layui-input">
                         </div>
                     </div>
 
                     <div class="layui-inline">
-                        <button class="layui-btn">查询</button>
+                        <button class="layui-btn" v-on:click="shortUrlCharts">查询</button>
                     </div>
                 </div>
                 <div id="charts-detail"  style="width: 1250px;height:600px;"></div>
@@ -105,8 +105,6 @@
 <script th:src="@{/js/templates/menu.js}"></script>
 <!-- short url -->
 <script th:src="@{/js/templates/short-url.js}"></script>
-<!-- short url charts -->
-<script th:src="@{/js/templates/short-url-charts.js}"></script>
 <!-- REQUIRED JS SCRIPTS -->
 </body>
 </html>

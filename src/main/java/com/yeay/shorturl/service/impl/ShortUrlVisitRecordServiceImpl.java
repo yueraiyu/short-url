@@ -6,7 +6,9 @@ import com.yeay.shorturl.service.ShortUrlVisitRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("shortUrlVisitRecordService")
@@ -36,8 +38,16 @@ public class ShortUrlVisitRecordServiceImpl implements ShortUrlVisitRecordServic
     }
 
     @Override
-    public List<String> groupVisitTime(String shortKey) {
-//        return shortUrlVisitRecordRepository.groupVisitDate(shortKey);
-        return null;
+    public List<ShortUrlVisitRecord> findByShortKeyAndAndVisitTimeBetween(String shortKey, Date startTime, Date endTime) {
+        if (StringUtils.isEmpty(shortKey))
+            return shortUrlVisitRecordRepository.findAll();
+
+        if(startTime == null)
+            return shortUrlVisitRecordRepository.findByShortKey(shortKey);
+
+        if (endTime == null)
+            endTime = new Date();
+
+        return shortUrlVisitRecordRepository.findByShortKeyAndAndVisitTimeBetween(shortKey, startTime, endTime);
     }
 }
