@@ -23,7 +23,7 @@
         <div id="main-sidebar">
             <ul class="layui-nav" lay-filter="">
                 <li class="layui-nav-item"><a href="#" @click="menu('WRAP')">压缩</a></li>
-                <li class="layui-nav-item"><a href="#" @click="menu('COUNT')">统计</a></li>
+                <li class="layui-nav-item"><a href="#" @click="menu('CHARTS')">统计</a></li>
             </ul>
         </div>
         <div id="content" class="margin">
@@ -46,14 +46,37 @@
                     </div>
                     <div class="layui-form-item right">
                         <div class="layui-input-block">
-                            <button class="layui-btn" v-on:click="save">Submit</button>
-                            <button class="layui-btn" v-on:click="resetData">Reset</button>
+                            <button class="layui-btn" v-on:click="save">压缩</button>
+                            <button class="layui-btn" v-on:click="resetData">清空</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="list" class="hidden">
-                <table id="url-list"></table>
+            <div id="charts" class="hidden">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">时间范围</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="start_time" name="start_time" placeholder="开始时间" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">-</div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="end_time" name="end_time" placeholder="结束时间" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">短码</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" id="search_key" name="search_key" placeholder="短码" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <button class="layui-btn">查询</button>
+                    </div>
+                </div>
+                <div id="charts-detail"  style="width: 1250px;height:600px;"></div>
             </div>
         </div>
     </div>
@@ -72,6 +95,8 @@
 <script th:src="@{/js/layui/layui.js}"></script>
 <!-- layer -->
 <script th:src="@{/js/layui/lay/modules/layer.js}"></script>
+<!-- echarts -->
+<script th:src="@{/js/echarts/echarts.common.min.js}"></script>
 <!-- index -->
 <script th:src="@{/js/templates/index.js}"></script>
 <!-- common -->
@@ -80,6 +105,8 @@
 <script th:src="@{/js/templates/menu.js}"></script>
 <!-- short url -->
 <script th:src="@{/js/templates/short-url.js}"></script>
+<!-- short url charts -->
+<script th:src="@{/js/templates/short-url-charts.js}"></script>
 <!-- REQUIRED JS SCRIPTS -->
 </body>
 </html>
