@@ -1,6 +1,6 @@
 option = {
     backgroundColor: "#404A59",
-    color: ['#ffd285', '#ff733f', '#ec4863'],
+    color: ['#C71585', '#DC143C', '#BA55D3', '#4169E1', '#87CEFA', '#2E8B57', '#7CFC00', '#FFFF00', '#FFFAF0', '#008B8B', '#4682B4', '#FF00FF'],
 
     title: [{
         text: '访问统计',
@@ -19,7 +19,8 @@ option = {
         }
     }],
     tooltip: {
-        trigger: 'axis'
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
     },
     legend: {
         x: 300,
@@ -105,182 +106,78 @@ option = {
         data: [20, 22, 20, 32, 15, 20, 19,22]
     },
         {
-            type: 'pie',
+            name:'系统占比',
+            type:'pie',
             center: ['83%', '33%'],
             radius: ['25%', '30%'],
+            avoidLabelOverlap: false,
             label: {
                 normal: {
-                    position: 'right'
+                    show: true,
+                    position: 'outside',
+                    formatter: "{b}:  {d}%",
+                    fontSize: 12
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
                 }
             },
-            data: [{
-                value: 180,
-                name: 'WINDOWS',
-                tooltip: {
-                    show: false
-                },
-                itemStyle: {
-                    normal: {
-                        color: '#ffd285'
-                    }
-                },
-                label: {
-                    normal: {
-                        textStyle: {
-                            color: '#ffd285',
-                        },
-                        formatter: 'WINDOWS {d} % \n',
-                        fontSize: 11
-                    }
+            labelLine: {
+                normal: {
+                    show: true
                 }
-            }, {
-                value: 180,
-                name: 'UNIX',
-                tooltip: {
-                    show: false
-                },
-                itemStyle: {
-                    normal: {
-                        color: '#ff733f'
-                    }
-                },
-                label: {
-                    normal: {
-                        textStyle: {
-                            color: '#ff733f',
-                        },
-                        formatter: 'UNIX {d} %  \n',
-                        fontSize: 11
-                    }
-                }
-            }, {
-                value: 335,
-                name: 'LINUX',
-                itemStyle: {
-                    normal: {
-                        color: '#ec4863'
-                    }
-                },
-                label: {
-                    normal: {
-                        formatter: 'LINUX {d} %',
-                        textStyle: {
-                            color: '#ec4863',
-                            fontSize: 11
-                        }
-                    }
-                }
-            }]
+            },
+            data:[
+                {value:335, name:'Windows'},
+                {value:310, name:'Mac'},
+                {value:234, name:'Unix'},
+                {value:135, name:'Android'},
+                {value:1548, name:'IPhone'},
+                {value:154, name:'UnKnown'}
+            ]
         },
-
-
         {
-            type: 'pie',
+            name:'浏览器占比',
+            type:'pie',
             center: ['83%', '72%'],
             radius: ['25%', '30%'],
+            avoidLabelOverlap: false,
             label: {
                 normal: {
-                    position: 'right'
+                    show: true,
+                    position: 'outside',
+                    formatter: "{b}:  {d}%",
+                    fontSize: 12
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
                 }
             },
-            data: [{
-                value: 180,
-                name: 'FIREFOX',
-                tooltip: {
-                    show: false
-                },
-                itemStyle: {
-                    normal: {
-                        color: '#ffd285'
-                    }
-                },
-                label: {
-                    normal: {
-                        textStyle: {
-                            color: '#ffd285',
-                        },
-                        formatter: 'FIREFOX {d} % \n',
-                        fontSize: 11
-                    }
+            labelLine: {
+                normal: {
+                    show: true
                 }
-            }, {
-                value: 180,
-                name: 'GOOGLE',
-                tooltip: {
-                    show: false
-                },
-                itemStyle: {
-                    normal: {
-                        color: '#AACD06'
-                    }
-                },
-                label: {
-                    normal: {
-                        textStyle: {
-                            color: '#AACD06',
-                        },
-                        formatter: 'GOOGLE {d} %  \n',
-                        fontSize: 11
-                    }
-                }
-            }, {
-                value: 335,
-                name: 'OPERA',
-                itemStyle: {
-                    normal: {
-                        color: '#ec4863'
-                    }
-                },
-                label: {
-                    normal: {
-                        formatter: 'OPERA {d} %  \n',
-                        textStyle: {
-                            color: '#ec4863',
-                            fontSize: 11
-                        }
-                    }
-                }
-            }, {
-                value: 180,
-                name: 'SAFARI',
-                tooltip: {
-                    show: false
-                },
-                itemStyle: {
-                    normal: {
-                        color: '#2568DA'
-                    }
-                },
-                label: {
-                    normal: {
-                        textStyle: {
-                            color: '#2568DA',
-                        },
-                        formatter: 'SAFARI {d} %  \n',
-                        fontSize: 11
-                    }
-                }
-            }, {
-                value: 180,
-                name: 'EDGE',
-                tooltip: {
-                    show: false
-                },
-                itemStyle: {
-                    normal: {
-                        color: '#ff733f'
-                    }
-                },
-                label: {
-                    normal: {
-                        textStyle: {
-                            color: '#ff733f',
-                        },
-                        formatter: 'EDGE {d} %  \n',
-                        fontSize: 11
-                    }
-                }
-            }]
+            },
+            data:[
+                {value:335, name:'Edge'},
+                {value:310, name:'Msie'},
+                {value:234, name:'Safari'},
+                {value:135, name:'Opera'},
+                {value:1548, name:'Chrome'},
+                {value:1350, name:'Firefox'},
+                {value:115, name:'Netscape'},
+                {value:105, name:'IE'},
+                {value:145, name:'UnKnown'},
+                {value:125, name:'OPR'}
+            ]
         }
     ]
 };

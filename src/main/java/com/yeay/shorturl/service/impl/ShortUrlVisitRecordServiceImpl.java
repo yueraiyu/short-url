@@ -34,4 +34,10 @@ public class ShortUrlVisitRecordServiceImpl implements ShortUrlVisitRecordServic
     public List<ShortUrlVisitRecord> findByIpAndAndShortKey(String ip, String shortKey) {
         return shortUrlVisitRecordRepository.findByIpAndAndShortKey(ip, shortKey);
     }
+
+    @Override
+    public List<String> groupVisitTime(String shortKey) {
+//        return shortUrlVisitRecordRepository.groupVisitDate(shortKey);
+        return null;
+    }
 }

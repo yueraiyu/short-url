@@ -21,9 +21,13 @@ public class ShortUrlVisitRecord extends BaseEntity{
     @Column(name = "short_key", nullable = false, updatable = false)
     private String shortKey;
 
+    /** 访问日期 */
+    @Column(name = "visit_date", nullable = false, updatable = false)
+    private String visitDate;
+
     /** 访问时间 */
     @Column(name = "visit_time", nullable = false, updatable = false)
-    private Date visitTime;
+    private String visitTime;
 
     /** 访问浏览器 */
     @Column(name = "browser", nullable = false, updatable = false)
@@ -40,10 +44,11 @@ public class ShortUrlVisitRecord extends BaseEntity{
     public ShortUrlVisitRecord() {
     }
 
-    public ShortUrlVisitRecord(String ip, String shortKey, Date visitTime, String browser, String device, Boolean firstVisitFlag) {
+    public ShortUrlVisitRecord(String ip, String shortKey, String visitDate, String visitTime, String browser, String device, Boolean firstVisitFlag) {
         super(new Date(), new Date());
         this.ip = ip;
         this.shortKey = shortKey;
+        this.visitDate = visitDate;
         this.visitTime = visitTime;
         this.browser = browser;
         this.device = device;
@@ -66,11 +71,19 @@ public class ShortUrlVisitRecord extends BaseEntity{
         this.shortKey = shortKey;
     }
 
-    public Date getVisitTime() {
+    public String getVisitDate() {
+        return visitDate;
+    }
+
+    public void setVisitDate(String visitDate) {
+        this.visitDate = visitDate;
+    }
+
+    public String getVisitTime() {
         return visitTime;
     }
 
-    public void setVisitTime(Date visitTime) {
+    public void setVisitTime(String visitTime) {
         this.visitTime = visitTime;
     }
 

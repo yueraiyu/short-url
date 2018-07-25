@@ -1,10 +1,10 @@
 package com.yeay.shorturl.util.datetime;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -18,6 +18,38 @@ public class DateTimeUtil {
 	public static final String DEFAULT_DATE_TIME_FORMATTER = "yyyy-MM-dd HH:mm:ss";
 
     public static final String DATE_FORMATTER = "yyyyMMdd";
+
+    public static final String DATE_SPLIT = "-";
+
+    public static final String TIME_SPLIT = ":";
+
+	/**
+	 * 获取当前日期
+	 * @return
+	 */
+	public static String getCurrentDateString(){
+		Calendar ca = Calendar.getInstance();
+
+		int year = ca.get(Calendar.YEAR);//获取年份
+		int month=ca.get(Calendar.MONTH);//获取月份
+		int day=ca.get(Calendar.DATE);//获取日
+
+		return year + DATE_SPLIT +month + DATE_SPLIT + day;
+	}
+
+	/**
+	 * 获取当前时间
+	 * @return
+	 */
+	public static String getCurrentTimeString(){
+		Calendar ca = Calendar.getInstance();
+
+		int hour=ca.get(Calendar.HOUR);//小时
+		int minute=ca.get(Calendar.MINUTE);//分
+		int second=ca.get(Calendar.SECOND);//秒
+
+		return hour + TIME_SPLIT + minute + TIME_SPLIT + second;
+	}
 
 	/**
 	 * 获取当前日期时间字符串

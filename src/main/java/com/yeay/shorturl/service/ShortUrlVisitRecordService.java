@@ -12,4 +12,6 @@ public interface ShortUrlVisitRecordService {
     List<ShortUrlVisitRecord> findByShortKey(String shortKey);
 
     List<ShortUrlVisitRecord> findByIpAndAndShortKey(String ip, String shortKey);
+
+    List<String> groupVisitTime(String shortKey);
 }
