@@ -5,21 +5,21 @@ new Vue({
         shortKey: ""
     },
     methods: {
-        validate: function () {
-            return $('#url-add-form').validate({
-                rules: {
-                    url: {
-                        required: true,
-                        url: true
-                    }
-                }
-            });
-        },
         save: function (callback) {
-            if(!this.validate().form())
-                return;
-
             var vm = this;
+
+            if(verifyUrl(vm.$data.url)){
+                layer.msg("请输入有效的请求地址!");
+                return;
+            }
+
+            if(vm.$data.shortKey){
+                if(verifyShortKey(vm.$data.shortKey)){
+                    layer.msg("请输入含有数字、字母、下划线且不能以下划线开头和结尾");
+                    return;
+                }
+            }
+
             axios.post(save_URL, vm.$data)
                 .then(function (res) {
                     if(res.data.code != 400){

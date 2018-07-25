@@ -14,7 +14,8 @@ var mainSidebar = new Vue({
                 $("#create").show();
                 $("#list").hide();
 
-                window.location = web_service_URL + this.action;
+                axios.get(web_service_URL + this.action);
+                // window.location = web_service_URL + this.action;
             } else if ('COUNT' === name) {
                 this.action = 'list';
                 $("#list").show();

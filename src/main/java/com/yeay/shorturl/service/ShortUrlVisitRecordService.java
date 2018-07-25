@@ -1,11 +1,12 @@
-package com.yeay.shorturl.dao;
+package com.yeay.shorturl.service;
 
 import com.yeay.shorturl.entity.ShortUrlVisitRecord;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ShortUrlVisitRecordRepository extends CrudRepository<ShortUrlVisitRecord, Long> {
+public interface ShortUrlVisitRecordService {
+    void save(ShortUrlVisitRecord shortUrlVisitRecord);
+
     List<ShortUrlVisitRecord> findByIp(String ip);
 
     List<ShortUrlVisitRecord> findByShortKey(String shortKey);

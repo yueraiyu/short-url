@@ -2,7 +2,7 @@ package com.yeay.shorturl.util.url;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class RequestUtil {
+public class ClientInfoUtil {
     public static String getIpAddress(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         System.out.println("============================ip:" + ip + "==============================");

@@ -5,9 +5,13 @@ import com.yeay.shorturl.entity.base.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity(name = "short_url_visit_record")
+@Table(name = "short_url_visit_record",
+        indexes = {@Index(name = "ip_search_index", columnList = "ip"),@Index(name = "short_key_search_index", columnList = "short_key")})
 public class ShortUrlVisitRecord extends BaseEntity{
     /** 请求客户端 ip */
     @Column(name = "ip", nullable = false, updatable = false)

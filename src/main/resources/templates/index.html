@@ -22,8 +22,8 @@
     <div class="content-wrapper" id="content-wrapper">
         <div id="main-sidebar">
             <ul class="layui-nav" lay-filter="">
-                <li class="layui-nav-item"><a href="#" @click="menu('WRAP')">WRAP</a></li>
-                <li class="layui-nav-item"><a href="#" @click="menu('COUNT')">COUNT</a></li>
+                <li class="layui-nav-item"><a href="#" @click="menu('WRAP')">压缩</a></li>
+                <li class="layui-nav-item"><a href="#" @click="menu('COUNT')">统计</a></li>
             </ul>
         </div>
         <div id="content" class="margin">
@@ -31,19 +31,17 @@
                 <div class="form-horizontal" id="url-add-form">
                     <div class="layui-form-item layui-form-text">
                         <div class="layui-input-block">
-                            <textarea class="layui-textarea" lay-verify="required" id="url-add" name="url" v-model="url" required="true" placeholder="please insert url..."></textarea>
+                            <textarea class="layui-textarea" id="url-add" name="url" v-model="url" placeholder="请输入请求地址..."></textarea>
                         </div>
                         <div class="layui-input-block">
-                            <div class="define-div">
-                                <p>
-                                    自定义网址：<span th:text="${serverName}"></span>&nbsp;
-                                    <i class="define-i">
-                                        <input type="text" id="shortKey-add" name="shortKey" v-model="shortKey" placeholder="please insert short key...">
-                                    </i>
-                                    字母、数字、下划线
-                                </p>
+                            <div class="layui-form-mid layui-word-aux">
+                                <p>自定义网址:<span th:text="${serverName}"></span>&nbsp;</p>
                             </div>
-
+                            <div class="layui-input-inline">
+                                <input type="text" id="shortKey-add" name="shortKey" v-model="shortKey" placeholder="请输入自定义键值..." class="short-key-input">
+                                <hr class="layui-bg-blue">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">字母、数字、下划线(不能以下划线开头和结尾)</div>
                         </div>
                     </div>
                     <div class="layui-form-item right">
@@ -65,7 +63,7 @@
 <!-- jQuery 3 -->
 <script th:src="@{/js/jquery/dist/jquery.min.js}"></script>
 <!--jquery validation-->
-<script th:src="@{/js/jquery-validation/dist/jquery.validate.min.js}"></script>
+<!--<script th:src="@{/js/jquery-validation/dist/jquery.validate.min.js}"></script>-->
 <!-- vue -->
 <script th:src="@{/js/vue/vue2.5.16.min.js}"></script>
 <!-- axios -->
