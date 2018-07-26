@@ -105,9 +105,10 @@ public class ShortUrlController {
                     .collect(Collectors.groupingBy(ShortUrlVisitRecord :: getDate));
 
             dates = new ArrayList<>(dateGroup.keySet());
+        }else{
+            dates = DateTimeUtil.getDateStringBetween(shortUrlVisitRecordRequest.getStartTime(), shortUrlVisitRecordRequest.getEndTime());
         }
 
-        dates = DateTimeUtil.getDateStringBetween(shortUrlVisitRecordRequest.getStartTime(), shortUrlVisitRecordRequest.getEndTime());
         response.setDates(dates);
 
         //yAxis 访问总数(数组) 新增IP（数组） 短码（数组）
