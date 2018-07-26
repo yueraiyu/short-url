@@ -32,7 +32,7 @@ public class ShortUrlUtil {
     public static String compression(String url){
         if (StringUtils.isEmpty(url))
             return null;
-        // step1: 将原 url + 随机 key , 生成 32 位 md5 随机串, 再追加 n 位随机串，生成 40 位随机串
+        // step1: 将原 url + 随机 key , 生成 32 位 md5 随机串
         String md5Str = getMD5Str(url);
 
         // step2: 将 md5 随机串均分四段
@@ -60,7 +60,7 @@ public class ShortUrlUtil {
             // step3: Long 二进制有效长度为 32 位， 需要将前面两位去掉，留下30位 （30位才能转换62进制，否则超出）， 通过 & 0x3fffffff 进行位与运算
             Long validSection = section & Long.valueOf(VALID_LENGTH_OPERATION, HEX_FLAG);
 
-            // step4: 将二进制拆成 6 段，每段 5 位, validSection 每一段（5位），通过 & 0x0000003D 进行位与运算得到一个 <= 61 的数字，作为数组[a-zA-Z0-9]的下标，转换为相应短码
+            // step4: 与 0x0000003D 进行 6 次位运算，每次位移 >> 5, 通过 & 0x0000003D 进行位与运算得到一个 <= 61 的数字，作为数组[a-zA-Z0-9]的下标，转换为相应短码
             String sectionShortKey = getShortKey(validSection);
 
             shorKeys[i] = sectionShortKey;
