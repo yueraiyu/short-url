@@ -1,6 +1,7 @@
 package com.yeay.shorturl.dao;
 
 import com.yeay.shorturl.entity.ShortUrlVisitRecord;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -16,7 +17,6 @@ public interface ShortUrlVisitRecordRepository extends CrudRepository<ShortUrlVi
 
     List<ShortUrlVisitRecord> findAll();
 
-    List<ShortUrlVisitRecord> findByShortKeyAndAndVisitTimeBetween(String shortKey, Date startTime, Date endTime);
-//    @Query()
-//    List<String> groupVisitDate(String shortKey);
+    List<ShortUrlVisitRecord> findAll(Specification querySpecifi);
+
 }

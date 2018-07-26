@@ -1,6 +1,7 @@
 package com.yeay.shorturl.util.datetime;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,9 +26,32 @@ public class DateTimeUtil extends DateUtils{
 
     public static final String DATE_FORMATTER = "yyyyMMdd";
 
+	public static final String DATE_FORMATTER_EN = "yyyy-MM-dd";
+
     public static final String DATE_SPLIT = "-";
 
     public static final String TIME_SPLIT = ":";
+
+	/**
+	 * 根据格式获取指定日期格式的字符串
+	 *
+	 * @param date
+	 * @param pattern
+	 * @return
+	 */
+	public static String formatDate(Date date, String pattern) {
+		if (date == null) {
+			return "";
+		}
+
+		if (StringUtils.isEmpty(pattern)){
+			SimpleDateFormat format = new SimpleDateFormat(DATE_FORMATTER_EN);
+			return format.format(date);
+		}
+
+		SimpleDateFormat format = new SimpleDateFormat(pattern);
+		return format.format(date);
+	}
 
 	/**
 	 * 获取当前日期
@@ -64,7 +88,7 @@ public class DateTimeUtil extends DateUtils{
 	 */
 	public static Date getDateFormString(String dateStr, SimpleDateFormat formatter) {
 		if (null == formatter) {
-			formatter = new SimpleDateFormat(DATE_FORMATTER);
+			formatter = new SimpleDateFormat(DATE_FORMATTER_EN);
 		}
 
 		Date date = null;
@@ -182,26 +206,52 @@ public class DateTimeUtil extends DateUtils{
     }
 
 	/**
+	 * 去除时间毫秒数中的分时秒
+	 *
+	 * @return
+	 */
+	public static Calendar getDate(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+
+		Calendar c = Calendar.getInstance();
+		c.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+				calendar.get(Calendar.DATE), 0, 0, 0);
+		return c;
+	}
+
+	/**
 	 * 获取两日期之间所有日期，返回数组
 	 * @param startDate
 	 * @param endDate
 	 * @return
 	 */
     public static List<String> getDateStringBetween(Date startDate, Date endDate) {
-		Calendar start = Calendar.getInstance();
-		start.setTime(startDate != null ? startDate : new Date());
+		Calendar start = getDate(startDate != null ? startDate : new Date());
 
-		Calendar end = Calendar.getInstance();
-		start.setTime(endDate != null ? endDate : new Date());
+		Calendar end = getDate(endDate != null ? endDate : new Date());
 
 		List<String> dates = new ArrayList<String>();
- 		while(!isSameDay(start, end)){
-			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMATTER);
+
+ 		while(le(start, end)){
+			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMATTER_EN);
 			String str = sdf.format(start.getTime());
 			dates.add(str);
 			start.add(Calendar.DAY_OF_MONTH, 1);
 		}
 
 		return dates;
+	}
+
+	/**
+	 * 比较年月日
+	 * @param c1
+	 * @param c2
+	 * @return
+	 */
+	public static boolean le(Calendar c1, Calendar c2){
+		Integer start = c1.get(Calendar.YEAR) * 10000 + c1.get(Calendar.MONTH) * 100 + c1.get(Calendar.DAY_OF_MONTH);
+		Integer end = c2.get(Calendar.YEAR) * 10000 + c2.get(Calendar.MONTH) * 100 + c2.get(Calendar.DAY_OF_MONTH);
+		return start <= end;
 	}
 }

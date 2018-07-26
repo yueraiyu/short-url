@@ -3,6 +3,7 @@ package com.yeay.shorturl.entity;
 import com.yeay.shorturl.entity.base.BaseEntity;
 import com.yeay.shorturl.util.url.DigestUtil;
 import com.yeay.shorturl.util.url.ShortUrlUtil;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,7 @@ public class ShortUrl extends BaseEntity{
     private String shortKey;
 
     @Column(name = "url", nullable = false, updatable = false)
+    @Type(type="text")
     private String url;
 
     public ShortUrl() {

@@ -2,6 +2,7 @@ package com.yeay.shorturl.entity;
 
 
 import com.yeay.shorturl.entity.base.BaseEntity;
+import com.yeay.shorturl.util.datetime.DateTimeUtil;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -119,5 +120,10 @@ public class ShortUrlVisitRecord extends BaseEntity{
             return "UnKnown";
         }
         return "UnKnown";
+    }
+
+    public String getDate(){
+        Date date = getVisitTime();
+        return DateTimeUtil.formatDate(date, null);
     }
 }

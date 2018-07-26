@@ -99,7 +99,15 @@ public class ShortUrlController {
         response.setTitles(titles);
 
         //xAxis data 时间
-        List<String> dates = DateTimeUtil.getDateStringBetween(shortUrlVisitRecordRequest.getStartTime(), shortUrlVisitRecordRequest.getEndTime());
+        List<String> dates = new ArrayList<>();
+        if (shortUrlVisitRecordRequest.getStartTime() == null && shortUrlVisitRecordRequest.getEndTime() == null){
+            Map<String, List<ShortUrlVisitRecord>> dateGroup = shortUrlVisitRecords.stream()
+                    .collect(Collectors.groupingBy(ShortUrlVisitRecord :: getDate));
+
+            dates = new ArrayList<>(dateGroup.keySet());
+        }
+
+        dates = DateTimeUtil.getDateStringBetween(shortUrlVisitRecordRequest.getStartTime(), shortUrlVisitRecordRequest.getEndTime());
         response.setDates(dates);
 
         //yAxis 访问总数(数组) 新增IP（数组） 短码（数组）

@@ -23,7 +23,7 @@ CREATE TABLE `short_url` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `hash_key` varchar(255) NOT NULL DEFAULT '' COMMENT '原始url 哈希码',
   `short_key` varchar(255) NOT NULL COMMENT '原始url 短码',
-  `url` text NOT NULL COMMENT '原始 url',
+  `url` longtext NOT NULL COMMENT '原始 url',
   `create_date` datetime NOT NULL COMMENT '创建时间',
   `modify_date` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
