@@ -24,14 +24,19 @@ public class ShortUrlUtil {
     /** 获取 < 61 的有效数位运算*/
     private static final String VALID_INDEX_OPERATION = "0000003D";
 
+    private static final int SHORT_KEY_LENGTH = 6;
+
+    private static final int SUB_MD5_SIZE = 4;
+
     /**
      * 压缩url
      * @param url
      * @return
      */
     public static String compression(String url){
-        if (StringUtils.isEmpty(url))
+        if (StringUtils.isEmpty(url)) {
             return null;
+        }
         // step1: 将原 url + 随机 key , 生成 32 位 md5 随机串
         String md5Str = getMD5Str(url);
 
@@ -43,8 +48,9 @@ public class ShortUrlUtil {
     }
 
     public static String appendRandomCharUrl(String url){
-        if (StringUtils.isEmpty(url))
+        if (StringUtils.isEmpty(url)) {
             return null;
+        }
         return getAppendWithRandomCharUrl(url);
     }
 
@@ -72,7 +78,7 @@ public class ShortUrlUtil {
 
     private static String getShortKey(Long validSection) {
         StringBuilder shortKey = new StringBuilder();
-        for (int i = 0; i < 6; i ++){
+        for (int i = 0; i < SHORT_KEY_LENGTH; i ++){
             Long index = validSection & Long.valueOf(VALID_INDEX_OPERATION, HEX_FLAG);
             shortKey.append(RandomUtil.getCodeByIndex(index));
             validSection >>= 5;
@@ -83,7 +89,7 @@ public class ShortUrlUtil {
 
     private static String[] splitMd5Str(String md5Str) {
         String[] sections = new String[4];
-        for (int i = 0; i < 4; i ++){
+        for (int i = 0; i < SUB_MD5_SIZE; i ++){
             int start = i * 8;
             int end = (i + 1) * 8;
             sections[i] = md5Str.substring(start, end);

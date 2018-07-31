@@ -79,8 +79,8 @@ public class ClientInfoUtil {
         } else if (user.contains("firefox")) {
             browser = (userAgent.substring(userAgent.indexOf("Firefox")).split(" ")[0]).replace("/", "-");
         } else if(user.contains("rv")) {
-            String IEVersion = (userAgent.substring(userAgent.indexOf("rv")).split(" ")[0]).replace("rv:", "-");
-            browser = "IE" + IEVersion.substring(0,IEVersion.length() - 1);
+            String ieVersion = (userAgent.substring(userAgent.indexOf("rv")).split(" ")[0]).replace("rv:", "-");
+            browser = "IE" + ieVersion.substring(0,ieVersion.length() - 1);
         } else {
             browser = "UnKnown, More-Info: "+ userAgent;
         }
